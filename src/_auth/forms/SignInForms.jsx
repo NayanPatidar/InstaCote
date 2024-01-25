@@ -1,10 +1,7 @@
 import React from "react";
 
 const SignInForm = () => {
-    return (
-        <div>SingInForm</div>
+  return <div>SignInForm</div>;
+};
 
-    )
-}
-
-export default SignInForm
+export default SignInForm;
