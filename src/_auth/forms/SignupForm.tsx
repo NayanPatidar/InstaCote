@@ -1,6 +1,7 @@
 import * as z from "zod";
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,7 @@ const SignupForm = () => {
             </FormItem>
           )}
         />
-        <FormField  
+        <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
@@ -97,7 +98,11 @@ const SignupForm = () => {
             <FormItem className="forms-field">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" className="shad-input max-h-10" {...field} />
+                <Input
+                  type="password"
+                  className="shad-input max-h-10"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="error-message" />
             </FormItem>
@@ -113,6 +118,10 @@ const SignupForm = () => {
             "Sign up "
           )}
         </Button>
+        <p className='text-small-regular text-light-2 text-center mt-2 '>
+          Already have an account? 
+          <Link to={"/sign-in"} className="text-primary-500 text-small-semibold ml-1"> Sign In</Link>
+        </p>
       </form>
     </Form>
   );
