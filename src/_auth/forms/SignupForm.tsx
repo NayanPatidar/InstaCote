@@ -1,5 +1,4 @@
 import * as z from "zod";
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form";
@@ -17,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import { Loader } from "lucide-react";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
   const isLoading = false;
@@ -31,8 +31,9 @@ const SignupForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof SignupValidation>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignupValidation>) {
+    const newUser = await createUserAccount(values);
+    console.log(newUser);
   }
 
   return (
@@ -120,7 +121,7 @@ const SignupForm = () => {
         </Button>
         <p className='text-small-regular text-light-2 text-center mt-2 '>
           Already have an account? 
-          <Link to={"/sign-in"} className="text-primary-500 text-small-semibold ml-1"> Sign In</Link>
+          <Link to={"/sign-in"} className="text-primary-500 text-small-semibold ml-1"> Log In</Link>
         </p>
       </form>
     </Form>
