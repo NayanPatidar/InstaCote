@@ -278,3 +278,15 @@
     @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
   }
 }
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  font-weight: 200;
+  right: 0%;
+  position: absolute;
+}
+
+.forms-field {
+  position: relative;
+}
