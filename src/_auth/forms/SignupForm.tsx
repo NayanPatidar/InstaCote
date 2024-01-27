@@ -1,7 +1,8 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Toaster } from "@/components/ui/toaster";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +17,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import { Loader } from "lucide-react";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { toast, useToast } from "@/components/ui/use-toast";
+import {
+  userCreateUserAccount,
+  userSignInAccount,
+} from "@/lib/react-query/queriesAndMutations";
 
 const SignupForm = () => {
-  const isLoading = false;
+  const { toast } = useToast();
+
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+    userCreateUserAccount();
+
+  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+    userSignInAccount();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -32,8 +43,23 @@ const SignupForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
+
     const newUser = await createUserAccount(values);
-    console.log(newUser);
+
+    if (!newUser) {
+      return toast({ title: "Sign up failed. Please try again." });
+    }
+
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!session) {
+      return toast({ title: "Sign in failed. Please try again."})
+    }
+
+    
   }
 
   return (
@@ -110,7 +136,7 @@ const SignupForm = () => {
           )}
         />
         <Button type="submit" className="shad-button_primary mt-8">
-          {isLoading ? (
+          {isCreatingUser ? (
             <div className="flex-center gap-2 ">
               <Loader />
               Loading...
@@ -119,9 +145,15 @@ const SignupForm = () => {
             "Sign up "
           )}
         </Button>
-        <p className='text-small-regular text-light-2 text-center mt-2 '>
-          Already have an account? 
-          <Link to={"/sign-in"} className="text-primary-500 text-small-semibold ml-1"> Log In</Link>
+        <p className="text-small-regular text-light-2 text-center mt-2 ">
+          Already have an account?
+          <Link
+            to={"/sign-in"}
+            className="text-primary-500 text-small-semibold ml-1"
+          >
+            {" "}
+            Log In
+          </Link>
         </p>
       </form>
     </Form>
