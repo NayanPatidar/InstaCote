@@ -34,16 +34,16 @@ const LeftsideBar = () => {
           <img
             src={user.imageUrl || "assets/icons/profile-placeholder.svg"}
             alt="profile"
-            className="h-14 w-14 rounded-full"
+            className="h-8 w-8 rounded-full"
           />
 
           <div className="flex flex-col">
-            <p className="body-bold">{user.name}</p>
-            <p className="small-regular text-light-3">@{user.username}</p>
+            <p className="body-bold text-8">{user.name}</p>
+            <p className=" small-regular text-light-3">@{user.username}</p>
           </div>
         </Link>
 
-        <ul className="flex flex-col gap-6 ">
+        <ul className="flex flex-col gap-3 ">
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
             return (
@@ -55,7 +55,7 @@ const LeftsideBar = () => {
               >
                 <NavLink
                   to={link.route}
-                  className="flex gap-4 items-center p-4"
+                  className="flex gap-3 items-center p-1"
                 >
                   <img
                     src={link.imgURL}
@@ -74,7 +74,7 @@ const LeftsideBar = () => {
 
       <Button
         variant="ghost"
-        className="shad-button_ghost"
+        className="shad-button_ghost  -translate-x-2" 
         onClick={() => signOut()}
       >
         <img src="/assets/icons/logout.svg" alt="logout" />
